@@ -92,6 +92,7 @@
                                 <delegatePattern>true</delegatePattern>
                                 <useSpringBoot3>true</useSpringBoot3>
                                 <!--suppress UnresolvedMavenProperty -->
+                                <!-- add annotations to generated model classes -->
                                 <additionalModelTypeAnnotations>
                                     @lombok.experimental.SuperBuilder
                                     @lombok.NoArgsConstructor
