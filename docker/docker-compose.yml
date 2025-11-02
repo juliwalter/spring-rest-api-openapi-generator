@@ -1,0 +1,11 @@
+services:
+  rest-api-database:
+    image: postgres:16
+    container_name: rest-api-database
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: rest-api-database
+    ports:
+      - "9998:5432"

@@ -1,0 +1,201 @@
+openapi: 3.0.3
+info:
+  title: Car API
+  version: 1.0.0
+  description: This is a OpenApi spec for managing a car repository
+
+servers:
+  - url: http://localhost:8080
+    description: Local development server
+
+paths:
+  /car:
+    get:
+      summary: Get all cars
+      description: Returns a list of all cars in the repository
+      operationId: getCars
+      responses:
+        '200':
+          description: Successfully fetched cars
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MultiCarResponse"
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GenericResponse"
+    post:
+      summary: Create a car
+      description: Lets you create a new car entity to the repository
+      operationId: createCar
+      requestBody:
+        description: Request body contains the car that should be created
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CarDto"
+      responses:
+        '201':
+          description: Successfully created car
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SingleCarResponse"
+        '400':
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GenericResponse"
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GenericResponse"
+    put:
+      summary: Edit a car
+      description: Lets you edit an existing car defined by its id
+      operationId: editCar
+      requestBody:
+        description: Request body contains the car that should be created
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CarDto"
+      responses:
+        '200':
+          description: Successfully edited car
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SingleCarResponse"
+        '400':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GenericResponse"
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GenericResponse"
+  /car/{carId}:
+    get:
+      summary: Get a specific car
+      description: Returns a specific car defined by its unique id
+      operationId: getCar
+      parameters:
+        - name: carId
+          in: path
+          required: true
+          description: The unique car id
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Successfully fetched car
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SingleCarResponse"
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GenericResponse"
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GenericResponse"
+    delete:
+      summary: Delete a car
+      description: Lets you delete an existing car defined by its id
+      operationId: deleteCar
+      parameters:
+        - name: carId
+          in: path
+          required: true
+          description: The unique car id
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Successfully deleted car
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SingleCarResponse"
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GenericResponse"
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GenericResponse"
+components:
+  schemas:
+    GenericResponse:
+      type: object
+      properties:
+        description:
+          type: string
+    SingleCarResponse:
+      allOf:
+        - $ref: "#/components/schemas/GenericResponse"
+        - type: object
+          required:
+            - car
+          properties:
+            car:
+              $ref: "#/components/schemas/CarDto"
+    MultiCarResponse:
+      allOf:
+        - $ref: "#/components/schemas/GenericResponse"
+        - type: object
+          required:
+            - cars
+          properties:
+            cars:
+              type: array
+              x-field-extra-annotation: "@lombok.Builder.Default"
+              items:
+                $ref: "#/components/schemas/CarDto"
+    CarDto:
+      type: object
+      required:
+        - make
+        - model
+        - mileage
+      properties:
+        id:
+          type: string
+          format: uuid
+        make:
+          type: string
+          enum: [ mercedes, bmw, audi, vw, other ]
+          example: "mercedes"
+        model:
+          type: string
+          example: "E320"
+        mileage:
+          type: integer
+          minimum: 0
+          example: 121305
