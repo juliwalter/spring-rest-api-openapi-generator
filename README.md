@@ -2,7 +2,7 @@
 
 This project is a simple showcase of a REST API architecture. The API is formally defined using
 an [OpenAPI specification](src/main/resources/openapi-spec.yml), and the Java Spring Boot interface is generated with
-the [`openapi-generator-maven-plugin`](https://openapi-generator.tech/docs/plugins/).
+the [`openapi-generator-maven-plugin`](https://openapi-generator.tech/docs/plugins/). To generate the API classes simply execute `mvn compile`.
 
 ## Start runtime dependencies
 
