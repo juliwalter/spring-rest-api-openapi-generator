@@ -66,3 +66,6 @@ export CAR_ID="<car-id>"
 
 curl -X DELETE -u "admin:admin" http://localhost:8080/car/$CAR_ID
 ```
+
+## Later projects:
+* Add rate limiting to the API, for example like implemented [here](https://dev.to/jackynote/how-to-implement-rate-limiting-in-spring-boot-apis-using-aspect-oriented-programming-ehi)
