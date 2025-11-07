@@ -14,6 +14,28 @@ paths:
       summary: Get all cars
       description: Returns a list of all cars in the repository
       operationId: getCars
+      parameters:
+        - in: query
+          name: page
+          description: Number of the page to be queried
+          schema:
+            type: integer
+            minimum: 0
+            default: 0
+        - in: query
+          name: size
+          description: Size of the page to be queried
+          schema:
+            type: integer
+            minimum: 1
+            default: 50
+        - name: sort
+          in: query
+          description: Sort order
+          schema:
+            type: string
+            enum: [asc, desc]
+            default: asc
       responses:
         '200':
           description: Successfully fetched cars

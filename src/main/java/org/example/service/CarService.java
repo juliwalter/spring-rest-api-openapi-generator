@@ -2,8 +2,10 @@ package org.example.service;
 
 import jakarta.annotation.Nonnull;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.example.model.Car;
 import org.example.repository.CarRepository;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,6 +17,7 @@ import java.util.UUID;
  *
  * @author julianwalter
  */
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class CarService {
@@ -32,12 +35,16 @@ public class CarService {
     }
 
     /**
-     * Gets all car entities from the database
+     * Fetch a list of cars with a page request
      *
-     * @return the list of all cars in the database
+     * @param pageRequest the page request
+     * @return the list of cars
      */
-    public List<Car> getCars() {
-        return repository.findAll();
+    public List<Car> getCars(PageRequest pageRequest) {
+        log.info("Start loading");
+        List<Car> asd = repository.findAll(pageRequest).toList();
+        log.info("End loading");
+        return asd;
     }
 
     /**

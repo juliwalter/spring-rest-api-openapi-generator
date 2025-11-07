@@ -8,6 +8,8 @@ import org.example.api.dto.SingleCarResponse;
 import org.example.api.mapper.CarMapper;
 import org.example.model.Car;
 import org.example.service.CarService;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -28,9 +30,12 @@ public class CarApiDelegateImpl implements CarApiDelegate {
     private final CarService service;
 
     @Override
-    public ResponseEntity<MultiCarResponse> getCars() {
+    public ResponseEntity<MultiCarResponse> getCars(Integer page, Integer size, String sort) {
+        // create a page request based on the given query parameters
+        PageRequest pageRequest = getPageRequest(page, size, sort);
+
         // fetch all cars from the database and map them to dto
-        List<CarDto> cars = service.getCars()
+        List<CarDto> cars = service.getCars(pageRequest)
                 .stream()
                 .map(mapper::fromCar)
                 .toList();
@@ -40,6 +45,11 @@ public class CarApiDelegateImpl implements CarApiDelegate {
                 .cars(cars)
                 .description("Successfully fetched cars")
                 .build());
+    }
+
+    private PageRequest getPageRequest(Integer page, Integer size, String sort) {
+        Sort.Direction direction = "desc".equals(sort) ? Sort.Direction.DESC : Sort.Direction.ASC;
+        return PageRequest.of(page, size, direction, "createdAt");
     }
 
     @Override
