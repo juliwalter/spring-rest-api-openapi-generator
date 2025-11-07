@@ -27,7 +27,7 @@ Request to get all cars from the database.
 curl -u "admin:admin" http://localhost:8080/car
 ```
 
-### GET /car/<car-id>
+### GET /car/{car-id}
 
 Request to get a specific car from the database by its id.
 
@@ -57,7 +57,7 @@ export UPDATE_CAR='{"id": "<car-id>","make": "mercedes","model": "A250","mileage
 curl -X PUT -u "admin:admin" http://localhost:8080/car -H 'Content-Type: application/json' -d $UPDATE_CAR
 ```
 
-### DELETE /car/<car-id>
+### DELETE /car/{car-id}
 
 Request to delete a car in the database.
 
