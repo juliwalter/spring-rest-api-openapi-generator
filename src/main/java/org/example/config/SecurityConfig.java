@@ -8,6 +8,8 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.web.SecurityFilterChain;
 
 /**
+ * Security config for the REST service. Disables CSRF to enable POST requests
+ *
  * @author julianwalter
  */
 @Configuration
